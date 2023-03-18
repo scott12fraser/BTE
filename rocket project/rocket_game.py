@@ -47,7 +47,7 @@ class controlls():
            def build_buttonF():
                build_button.destroy()
                ship().create()
-               ship_img =  Image.open('ship_.png')
+               ship_img =  Image.open('img/ship_.png')
                ship_img = ImageTk.PhotoImage(ship_img)
                global ship_lable
                ship_lable= Label(image=ship_img)
@@ -60,7 +60,7 @@ class controlls():
             v1 = DoubleVar()   
             input_acc= Scale( root, variable = v1, from_ = 0, to = 100, orient = HORIZONTAL)  
             input_acc.grid(row= 1, column=4,columnspan=2)
-            self.acc_lable= Label(root,text= 'Accelration: 0')  
+            self.acc_lable= Label(root,text= 'Acceleration: 0')  
             self.acc_lable.grid(row= 3, column=4,columnspan=2)
             
             #call function acc and chanmges ship img in gui
@@ -76,7 +76,7 @@ class controlls():
                  if percent < 100 and percent>0:
                      ap =50
                  acc(percent)    
-                 ship_img = ImageTk.PhotoImage(Image.open('ship_'+str(ap)+'.png'))
+                 ship_img = ImageTk.PhotoImage(Image.open('img/ship_'+str(ap)+'.png'))
                  ship_lable.grid_forget()
                  ship_lable= Label(image=ship_img)
                  ship_lable.image = ship_img
@@ -84,10 +84,10 @@ class controlls():
                  
                  
                  
-            acc_button= Button(root,text='accelrate', command =lambda: acc_buttF())
+            acc_button= Button(root,text='Accelerate', command =lambda: acc_buttF())
             
             current_acc= computer().accelerometer()
-            decc_button= Button(root,text='decelrate', command =lambda: acc_buttF('decc')).grid(row= 2, column=5)
+            decc_button= Button(root,text='Decelerate', command =lambda: acc_buttF('decc')).grid(row= 2, column=5)
             acc_button.grid(row= 2, column=4)
            global build_button
            build_button= Button(root,text='build ship', command =build_buttonF)
@@ -102,7 +102,7 @@ class controlls():
                      
                   
                      self.acc_lable.destroy()
-                     self.acc_lable= Label(root,text= 'Accelration: ' + str(A))   
+                     self.acc_lable= Label(root,text= 'Acceleration: ' + str(A))   
                      
                      self.acc_lable.grid(row= 3, column=4,columnspan=2) 
                      
