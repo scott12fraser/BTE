@@ -6,62 +6,108 @@ Created on Wed Mar  1 11:04:41 2023
 """
 import time
 import json
-from IPython.display import display
+from tkinter import *
+from PIL import ImageTk,Image
+root= Tk()
+def main():
+ 
+    acc_button= Button(root,text='accelrate', command =test().a)
+    decc_button= Button(root,text='decelrate', command =test().d).pack()
+    acc_button.pack()
+    
+    root.mainloop()
 class test:
     def a(self):
         ship().create()
         computer().Accelrator('All_thrusters',0)
         p =50
-        
-        def acc(p, command = 'start' ):
-                 while input() =='start'  :
-                     time.sleep(2)
-                     computer().Accelrator('All_thrusters',p)  
-                     A= computer().accelerometer()
-                     print(A)
-                 p = 0  
-                 computer().Accelrator('All_thrusters',p)  
-                 A= computer().accelerometer()
-              
-                 print(A)
+        computer().Accelrator('All_thrusters',p)  
+        A= computer().accelerometer()
+        acc_lable= Label(root,text= A)             
+        acc_lable.pack()        
+                 
                       
-        a = acc(p) 
+        
             
     def d(self):
         p=0
         computer().Accelrator('All_thrusters',p)  
-        computer().accelerometer()
-    
+        A= computer().accelerometer()
+        dcc_lable= Label(root,text= A)             
+        dcc_lable.pack() 
     
     
 class controlls():
+    # runs the controll pannel gui and its functions 
     def control_pannel(self):
-      def acc(p, command ):
-                 while command =='start'  :
-                     time.sleep(32)
-                     #command = input('comand example start, stop')
-                     computer().Accelrator('All_thrusters',p)  
-                     computer().accelerometer()
-                     
-      engine_status = 'stopped'
-      task=''
-      while task != 'stop':
-        task = input('comand example start, stop')
-        if task == 'break':
-             acc(0,'stop')
-        if task == 'start':
-            computer().Accelrator('All_thrusters',0)
-            engine_status = 'running'
-            print('running')
-        if task == 'acclerate':
-           if engine_status == 'running':
-               
-               p = input('enter acclration percentage')
+        #initatis the Gui controll pannel
+      def _int_():
+           
+          
+           def build_buttonF():
+               build_button.destroy()
+               ship().create()
+               ship_img =  Image.open('ship_.png')
+               ship_img = ImageTk.PhotoImage(ship_img)
+               global ship_lable
+               ship_lable= Label(image=ship_img)
+               ship_lable.image = ship_img
+               ship_lable.grid(row= 4, column=4,columnspan=2, rowspan=3)
               
-               acc(p,'start')
-           else:
-               print('engin not running please start engine')
+               ship_GUI()
                
+           def ship_GUI():
+            v1 = DoubleVar()   
+            input_acc= Scale( root, variable = v1, from_ = 0, to = 100, orient = HORIZONTAL)  
+            input_acc.grid(row= 1, column=4,columnspan=2)
+            self.acc_lable= Label(root,text= 'Accelration: 0')  
+            self.acc_lable.grid(row= 3, column=4,columnspan=2)
+            
+            #call function acc and chanmges ship img in gui
+            def acc_buttF(fun='acc'):
+                 global ship_lable
+                 percent = input_acc.get()
+                
+                 if percent == 100:
+                     ap = 100
+                 if percent==0 or fun !='acc':
+                     ap = ''
+                     percent = 0
+                 if percent < 100 and percent>0:
+                     ap =50
+                 acc(percent)    
+                 ship_img = ImageTk.PhotoImage(Image.open('ship_'+str(ap)+'.png'))
+                 ship_lable.grid_forget()
+                 ship_lable= Label(image=ship_img)
+                 ship_lable.image = ship_img
+                 ship_lable.grid(row= 4, column=4,columnspan=2, rowspan=3)
+                 
+                 
+                 
+            acc_button= Button(root,text='accelrate', command =lambda: acc_buttF())
+            
+            current_acc= computer().accelerometer()
+            decc_button= Button(root,text='decelrate', command =lambda: acc_buttF('decc')).grid(row= 2, column=5)
+            acc_button.grid(row= 2, column=4)
+           global build_button
+           build_button= Button(root,text='build ship', command =build_buttonF)
+           build_button.pack()
+           root.mainloop()
+           #taskes in percentaghe and run the acclrator and displays out put from accelromter
+      def acc(p):
+                
+                     
+                     computer().Accelrator('All_thrusters',p)  
+                     A= computer().accelerometer()
+                     
+                  
+                     self.acc_lable.destroy()
+                     self.acc_lable= Label(root,text= 'Accelration: ' + str(A))   
+                     
+                     self.acc_lable.grid(row= 3, column=4,columnspan=2) 
+                     
+      _int_()               
+     
                
 class ship():
     
@@ -246,3 +292,8 @@ class fuel_tank :
 e = engine()
 f = fuel_tank()  
 c = computer()
+
+
+if __name__ == "__main__":
+      controlls().control_pannel() 
+   
