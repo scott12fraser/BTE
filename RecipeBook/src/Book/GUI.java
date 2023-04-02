@@ -136,8 +136,7 @@ public class GUI {
     }
     public void loadrecipes(){
 
-        //myRecipeBook.addRecipe("nansCookies", "226g margarine, 226g granulated sugar, 340g SFflour, 2tbsp golden syrup, chocolate chips ", 12);
-        //myRecipeBook.addRecipe("Tartiflette", "5 garlic cloves, 4 oinions, 20 potatoes, 250g baconlardons, 2 wheeels of reblochan,oil,250ml white wine ", 12);
+      
         try{
          FileInputStream fin = new FileInputStream("Recipes.txt");
          ObjectInputStream ois = new ObjectInputStream(fin);
